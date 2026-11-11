@@ -14,16 +14,15 @@ import {
 export const app = express();
 
 // CORS
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
-    ],
+    origin: env.CORS_ORIGIN.split(",").map((origin) => origin.trim()),
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 // Security
 app.use(helmet());
@@ -52,3 +51,5 @@ app.use("/api/chat", chatLimiter, chatRoutes);
 // Error handlers
 app.use(notFound);
 app.use(errorHandler);
+
+export default app;
